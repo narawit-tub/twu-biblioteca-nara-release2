@@ -67,4 +67,22 @@ public class ControllerTesting {
                 .andExpect(status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("Not found book"));
     }
+
+    @Test
+    public void returnBookCorrectly() throws Exception {
+        Book book = new Book("Work life balance", "", "");
+        this.mockMvc.perform(post("/api/libary/checkout")
+                    .content(new ObjectMapper().writeValueAsString(book))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON));
+        this.mockMvc.perform(post("/api/libary/returnbook")
+                    .content(new ObjectMapper().writeValueAsString(book))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("nara"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.bookName").value("Work life balance"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publicationYear").value("2016"));
+    }
 }

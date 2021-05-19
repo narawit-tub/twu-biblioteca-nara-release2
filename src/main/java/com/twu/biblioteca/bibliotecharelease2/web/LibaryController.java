@@ -27,4 +27,11 @@ public class LibaryController {
         if (checkedOutBook == null) return ErrorService.getErrorMap("Not found book");
         return new ResponseEntity<Book>(checkedOutBook, HttpStatus.OK);
     }
+
+    @PostMapping("/returnbook")
+    public ResponseEntity<?> returnBook (@RequestBody Book book) {
+        Book returnedBook = libaryService.returnBook(book.getBookName());
+        if (returnedBook == null) return ErrorService.getErrorMap("You define a wrong name of book, please recheck");
+        return new ResponseEntity<Book>(returnedBook, HttpStatus.OK);
+    }
 }
