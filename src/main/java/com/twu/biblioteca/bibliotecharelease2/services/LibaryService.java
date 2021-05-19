@@ -1,8 +1,9 @@
 package com.twu.biblioteca.bibliotecharelease2.services;
 
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
-import com.twu.biblioteca.bibliotecharelease2.domain.Libary;
+import com.twu.biblioteca.bibliotecharelease2.domain.LibaryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 public class LibaryService {
 
     @Autowired
-    private Libary libary;
+    @Qualifier("dummyLibary")
+    private LibaryInterface libary;
 
     public ArrayList<Book> getAvailableBook() {
         return libary.getBooks();

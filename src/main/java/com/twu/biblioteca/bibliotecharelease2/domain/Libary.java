@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component
-public class Libary {
+@Component("libary")
+public class Libary implements LibaryInterface{
     private ArrayList<Book> books;
 
-    Libary(ArrayList books) {
+    public Libary(ArrayList books) {
         this.books = books;
     }
 
