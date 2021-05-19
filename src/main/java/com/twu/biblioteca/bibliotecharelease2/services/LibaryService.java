@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,22 +20,10 @@ public class LibaryService {
         return libary.getBooks();
     }
 
-    public Integer getNumberOfBooks() {
-        return libary.getBooks().toArray().length;
-    }
-
-    public Integer getNumberOfAvailableBooks() {
-        return ((List)libary.getBooks().stream().filter((book) -> {
-            return book.getAvailable();
-        }).collect(Collectors.toList())).toArray().length;
-    }
-
     public Book checkoutBook(String bookName) {
         Book checkedOutBook = null;
-        Iterator var3 = libary.getBooks().iterator();
 
-        while(var3.hasNext()) {
-            Book book = (Book)var3.next();
+        for (Book book : libary.getBooks()) {
             if (book.getBookName().equals(bookName)) {
                 checkedOutBook = book;
                 book.setAvailable(false);
@@ -45,15 +31,13 @@ public class LibaryService {
             }
         }
 
-        return checkedOutBook != null ? checkedOutBook : null;
+        return (checkedOutBook != null) ? checkedOutBook : null;
     }
 
     public Book returnBook(String bookName) {
         Book returnedBook = null;
-        Iterator var3 = libary.getBooks().iterator();
 
-        while(var3.hasNext()) {
-            Book book = (Book)var3.next();
+        for (Book book : libary.getBooks()) {
             if (book.getBookName().equals(bookName)) {
                 returnedBook = book;
                 book.setAvailable(true);
@@ -62,5 +46,16 @@ public class LibaryService {
         }
 
         return returnedBook;
+    }
+
+    public Integer getNumberOfBooks() {
+        return libary.getBooks().toArray().length;
+    }
+
+    public Integer getNumberOfAvailableBooks() {
+        return libary.getBooks().stream()
+                .filter(book -> book.getAvailable())
+                .collect(Collectors.toList())
+                .toArray().length;
     }
 }

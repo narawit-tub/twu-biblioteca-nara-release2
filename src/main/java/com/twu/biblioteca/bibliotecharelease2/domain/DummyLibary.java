@@ -10,12 +10,16 @@ import java.util.List;
 public class DummyLibary implements LibaryInterface {
     private ArrayList<Book> books;
 
-    public ArrayList<Book> getBooks() {
+    DummyLibary () {
         List<Book> bookList = Arrays.asList(
                 new Book("Work life balance", "nara", "2016"),
                 new Book("Japan is hard", "mormew", "2015"));
         ArrayList<Book> booksArrayList = new ArrayList<>();
         booksArrayList.addAll(bookList);
-        return booksArrayList;
+        this.books = booksArrayList;
+    }
+
+    public ArrayList<Book> getBooks() {
+        return books;
     }
 }
