@@ -2,13 +2,13 @@ package com.twu.biblioteca.bibliotecharelease2.domain;
 
 public class Book {
     private String author;
-    private String pullicationYear;
+    private String publicationYear;
     private String bookName;
     private Boolean isAvailable;
 
-    public Book(String bookName, String author, String pullicationYear) {
+    public Book(String bookName, String author, String publicationYear) {
         this.author = author;
-        this.pullicationYear = pullicationYear;
+        this.publicationYear = publicationYear;
         this.bookName = bookName;
         this.isAvailable = true;
     }
@@ -17,8 +17,8 @@ public class Book {
         return this.author;
     }
 
-    public String getPullicationYear() {
-        return this.pullicationYear;
+    public String getPublicationYear() {
+        return this.publicationYear;
     }
 
     public String getBookName() {
@@ -34,7 +34,7 @@ public class Book {
     }
 
     public String getInformationDetail() {
-        return String.format("%s (%s) by %s - %s", this.getBookName(), this.getPullicationYear(), this.getAuthor(), this.isAvailable ? "available" : "not available");
+        return String.format("%s (%s) by %s - %s", this.getBookName(), this.getPublicationYear(), this.getAuthor(), this.isAvailable ? "available" : "not available");
     }
 
     public int compareTo(Book o) {

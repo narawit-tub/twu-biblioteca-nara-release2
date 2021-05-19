@@ -5,6 +5,7 @@ import com.twu.biblioteca.bibliotecharelease2.domain.Libary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,10 @@ public class LibaryService {
 
     @Autowired
     private Libary libary;
+
+    public ArrayList<Book> getAvailableBook() {
+        return libary.getBooks();
+    }
 
     public Integer getNumberOfBooks() {
         return libary.getBooks().toArray().length;

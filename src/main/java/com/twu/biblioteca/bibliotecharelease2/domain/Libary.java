@@ -8,10 +8,6 @@ import java.util.ArrayList;
 public class Libary {
     private ArrayList<Book> books;
 
-    Libary() {
-
-    }
-
     Libary(ArrayList books) {
         this.books = books;
     }
