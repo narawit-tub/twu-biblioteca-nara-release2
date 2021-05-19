@@ -70,7 +70,7 @@ public class ControllerTesting {
 
     @Test
     public void returnBookCorrectly() throws Exception {
-        Book book = new Book("Work life balance", "", "");
+        Book book = new Book("Work life balance", "nara", "2016");
         this.mockMvc.perform(post("/api/libary/checkout")
                     .content(new ObjectMapper().writeValueAsString(book))
                     .contentType(MediaType.APPLICATION_JSON)
@@ -84,5 +84,23 @@ public class ControllerTesting {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("nara"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.bookName").value("Work life balance"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.publicationYear").value("2016"));
+    }
+
+    @Test
+    public void returnBookIncorrectly() throws Exception {
+        Book book = new Book("Work life balance", "nara", "2016");
+        this.mockMvc.perform(post("/api/libary/checkout")
+                .content(new ObjectMapper().writeValueAsString(book))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+        book.setBookName("Wrong name");
+
+        this.mockMvc.perform(post("/api/libary/returnbook")
+                .content(new ObjectMapper().writeValueAsString(book))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("You define a wrong name of book, please recheck"));
     }
 }

@@ -29,6 +29,10 @@ public class Book {
         return this.isAvailable;
     }
 
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
     public void setAvailable(Boolean available) {
         this.isAvailable = available;
     }
