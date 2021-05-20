@@ -109,13 +109,18 @@ public class LibaryTesting {
         assertEquals(1, availableBooks.size());
         assertNull(returnedBook);
     }
-//    @Test
-//    public void viewAListOfMovies() {
-//        ArrayList<Movie> movies = new ArrayList<Movie>();
-//        movies.add(new Movie("Antman", "John maven", "2015"));
-//        movies.add(new Movie("Water flow", "Nora", "2015"));
-//        movies.add(new Movie("Land of paradise", "Kenjiro", "2012"));
-//
-////        assertEquals()
+
+    @Test
+    public void viewAListOfMovies() {
+        // Given
+        LibaryService service = new LibaryService(movies);
+
+        // When
+        ArrayList availableMovies = service.getAvailableMedia(LibaryMedia.Media_type.Movie);
+
+        // Then
+        assertEquals(3, availableMovies.size());
+        assertArrayEquals(movies.toArray(), availableMovies.toArray());
     }
+
 }
