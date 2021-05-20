@@ -3,6 +3,7 @@ package com.twu.biblioteca.bibliotecharelease2;
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
 import com.twu.biblioteca.bibliotecharelease2.domain.Movie;
 import com.twu.biblioteca.bibliotecharelease2.services.LibaryService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,23 +21,62 @@ public class LibaryTesting {
     * space for release 1 testing
     *
     * */
+    private ArrayList<Book> books;
 
-    @Test
-    public void viewAListOfBook() {
-        // Given
-        ArrayList<Book> books = new ArrayList<>();
+    @BeforeEach
+    public void setup () {
+        books = new ArrayList<>();
         List<Book> bookList = Arrays.asList(
                 new Book("Work life balance", "nara", "2016"),
                 new Book("Japan is hard", "mormew", "2015"));
         books.addAll(bookList);
+    }
+
+    @Test
+    public void viewAListOfBook() {
+        // Given
+        LibaryService service = new LibaryService(books);
 
         // When
-        LibaryService service = new LibaryService(books);
         ArrayList availableBooks = service.getAvailableBook();
 
         // Then
         assertEquals(2, availableBooks.size());
         assertArrayEquals(books.toArray(), availableBooks.toArray());
+    }
+
+    @Test
+    public void checkoutABook () {
+        // Given
+        LibaryService service = new LibaryService(books);
+
+        // When
+        Book checkedOutBook = service.checkoutBook("Work life balance");
+
+        // Then
+        ArrayList availableBooks = service.getAvailableBook();
+        assertEquals(1, availableBooks.size());
+        assertEquals(checkedOutBook.getBookName(), "Work life balance");
+        assertEquals(checkedOutBook.getAuthor(), "nara");
+        assertEquals(checkedOutBook.getPublicationYear(), "2016");
+
+    }
+
+    @Test
+    public void returnBookCorrectly () {
+        // Given
+        LibaryService service = new LibaryService(books);
+        Book checkedOutBook = service.checkoutBook("Work life balance");
+
+        // When
+        service.returnBook("Work life balance");
+
+        // Then
+        ArrayList availableBooks = service.getAvailableBook();
+        assertEquals(2, availableBooks.size());
+        assertEquals(checkedOutBook.getBookName(), "Work life balance");
+        assertEquals(checkedOutBook.getAuthor(), "nara");
+        assertEquals(checkedOutBook.getPublicationYear(), "2016");
     }
 
 //    @Test
