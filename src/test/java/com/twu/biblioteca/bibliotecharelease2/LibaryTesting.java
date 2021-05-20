@@ -1,6 +1,7 @@
 package com.twu.biblioteca.bibliotecharelease2;
 
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
+import com.twu.biblioteca.bibliotecharelease2.domain.LibaryMedia;
 import com.twu.biblioteca.bibliotecharelease2.domain.Movie;
 import com.twu.biblioteca.bibliotecharelease2.services.LibaryService;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,14 +20,18 @@ public class LibaryTesting {
     *
     * */
     private ArrayList<Book> books;
+    private ArrayList<Movie> movies;
 
     @BeforeEach
     public void setup () {
         books = new ArrayList<Book>();
-        books.add(new Book("Work life balance", "nara", "2016"));
-        books.add(new Book("Japan is hard", "mormew", "2015"));
+        books.add(new Book( "nara", "Work life balance","2016"));
+        books.add(new Book("mormew", "Japan is hard", "2015"));
 
-        books.addAll(bookList);
+        movies = new ArrayList<Movie>();
+        movies.add(new Movie( "John maven", "Antman", "2015", 5.5));
+        movies.add(new Movie( "Nora", "Water flow","2015", 7.0));
+        movies.add(new Movie( "Kenjiro", "Land of paradise", "2012", 4.0));
     }
 
     @Test
@@ -37,7 +40,7 @@ public class LibaryTesting {
         LibaryService service = new LibaryService(books);
 
         // When
-        ArrayList availableBooks = service.getAvailableBook();
+        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
 
         // Then
         assertEquals(2, availableBooks.size());
@@ -50,13 +53,13 @@ public class LibaryTesting {
         LibaryService service = new LibaryService(books);
 
         // When
-        Book checkedOutBook = service.checkoutBook("Work life balance");
+        LibaryMedia checkedOutBook = service.checkout("Work life balance");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook();
+        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
         assertEquals(1, availableBooks.size());
-        assertEquals(checkedOutBook.getBookName(), "Work life balance");
-        assertEquals(checkedOutBook.getAuthor(), "nara");
+        assertEquals(checkedOutBook.getProductName(), "Work life balance");
+        assertEquals(checkedOutBook.getMaker(), "nara");
         assertEquals(checkedOutBook.getPublicationYear(), "2016");
 
     }
@@ -67,10 +70,10 @@ public class LibaryTesting {
         LibaryService service = new LibaryService(books);
 
         // When
-        Book checkedOutBook = service.checkoutBook("Work life balance (wrong-name)");
+        LibaryMedia checkedOutBook = service.checkout("Work life balance (wrong-name)");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook();
+        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
         assertEquals(2, availableBooks.size());
         assertNull(checkedOutBook);
     }
@@ -79,16 +82,16 @@ public class LibaryTesting {
     public void returnBookCorrectly () {
         // Given
         LibaryService service = new LibaryService(books);
-        Book checkedOutBook = service.checkoutBook("Work life balance");
+        LibaryMedia checkedOutBook = service.checkout("Work life balance");
 
         // When
-        Book returnedBook = service.returnBook("Work life balance");
+        LibaryMedia returnedBook = service.returnBook("Work life balance");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook();
+        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
         assertEquals(2, availableBooks.size());
-        assertEquals(returnedBook.getBookName(), "Work life balance");
-        assertEquals(returnedBook.getAuthor(), "nara");
+        assertEquals(returnedBook.getProductName(), "Work life balance");
+        assertEquals(returnedBook.getMaker(), "nara");
         assertEquals(returnedBook.getPublicationYear(), "2016");
     }
 
@@ -96,13 +99,13 @@ public class LibaryTesting {
     public void returnBookIncorrectly () {
         // Given
         LibaryService service = new LibaryService(books);
-        service.checkoutBook("Work life balance");
+        service.checkout("Work life balance");
 
         // When
-        Book returnedBook = service.returnBook("Work life balance (wrong-name)");
+        LibaryMedia returnedBook = service.returnBook("Work life balance (wrong-name)");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook();
+        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
         assertEquals(1, availableBooks.size());
         assertNull(returnedBook);
     }

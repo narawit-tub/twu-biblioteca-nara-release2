@@ -2,6 +2,7 @@ package com.twu.biblioteca.bibliotecharelease2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
+import com.twu.biblioteca.bibliotecharelease2.domain.LibaryMedia;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -100,7 +101,7 @@ public class ControllerTesting {
                 .content(new ObjectMapper().writeValueAsString(book))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
-        book.setBookName("Wrong name");
+        book.setProductName("Wrong name");
 
         this.mockMvc.perform(post("/api/libary/books/returnbook")
                 .content(new ObjectMapper().writeValueAsString(book))
@@ -112,7 +113,17 @@ public class ControllerTesting {
     }
 
     @Test
-    public void loginToCheckoutBook() throws Exception {
+    public void shouldReturnAListOfMovie () throws Exception {
+        this.mockMvc.perform(get("/api/libary/movies"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value("nara"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bookName").value("Work life balance"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].publicationYear").value("2016"));
+    }
+
+    @Test
+    public void login() throws Exception {
         Map<String, String> userloginPayload = new HashMap<>();
         userloginPayload.put("email", "nara@email.com");
         userloginPayload.put("password", "1234");
@@ -129,4 +140,9 @@ public class ControllerTesting {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber").value("0912345678"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("libarian"));
     }
+
+//    @Test
+//    public void checkoutBookAfterLogin () throws Exception {
+//
+//    }
 }

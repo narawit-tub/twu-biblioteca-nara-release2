@@ -1,73 +1,68 @@
 package com.twu.biblioteca.bibliotecharelease2.services;
 
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
+import com.twu.biblioteca.bibliotecharelease2.domain.LibaryMedia;
+import com.twu.biblioteca.bibliotecharelease2.domain.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class LibaryService {
 
-    private ArrayList<Book> books;
+    private ArrayList<LibaryMedia> libaryMedias = new ArrayList<>();
 
     public LibaryService() {
-        // get books from source
-        books = new ArrayList<>();
-        List<Book> bookList = Arrays.asList(
-                new Book("Work life balance", "nara", "2016"),
-                new Book("Japan is hard", "mormew", "2015"));
-        books.addAll(bookList);
+        // get books from source, how can I mock this !!!!
+        libaryMedias.add(new Book("Work life balance", "nara", "2016"));
+        libaryMedias.add(new Book("Japan is hard", "mormew", "2015"));
     }
 
-    public LibaryService(ArrayList<Book> books) {
-        this.books = books;
+    public LibaryService(ArrayList<? extends LibaryMedia> media) {
+        libaryMedias.addAll(media);
     }
 
-    public ArrayList<Book> getAvailableBook() {
-        // filter only available book
-
-        return books;
+    public ArrayList<LibaryMedia> getAvailableBook(LibaryMedia.Media_type mediaType) {
+        switch (mediaType) {
+            case Book:
+                return new ArrayList<>(libaryMedias.stream().filter(book -> book.getAvailable() && book.getMediaType() == LibaryMedia.Media_type.Book).collect(Collectors.toList()));
+            case Movie:
+                return new ArrayList<>(libaryMedias.stream().filter(movie -> movie.getAvailable() && movie.getMediaType() == LibaryMedia.Media_type.Movie).collect(Collectors.toList()));
+            default:
+                return null;
+        }
     }
 
-    public Book checkoutBook(String bookName) {
-        Book checkedOutBook = null;
+    public LibaryMedia checkout(String bookName) {
+        LibaryMedia checkedOutMedia = null;
 
-        for (Book book : books) {
-            if (book.getBookName().equals(bookName)) {
-                checkedOutBook = book;
-                book.setAvailable(false);
+        for (LibaryMedia libaryMedia : libaryMedias) {
+            if (libaryMedia.getProductName().equals(bookName)) {
+                checkedOutMedia = libaryMedia;
+                libaryMedia.setAvailable(false);
                 break;
             }
         }
 
-        return (checkedOutBook != null) ? checkedOutBook : null;
+        return (checkedOutMedia != null) ? checkedOutMedia : null;
     }
 
-    public Book returnBook(String bookName) {
-        Book returnedBook = null;
+    public LibaryMedia returnBook(String bookName) {
+        LibaryMedia returnedMedia = null;
 
-        for (Book book : books) {
-            if (book.getBookName().equals(bookName)) {
-                returnedBook = book;
-                book.setAvailable(true);
+        for (LibaryMedia libaryMedia : libaryMedias) {
+            if (libaryMedia.getProductName().equals(bookName)) {
+                returnedMedia = libaryMedia;
+                libaryMedia.setAvailable(true);
                 break;
             }
         }
 
-        return returnedBook;
+        return returnedMedia;
     }
 
-    public Integer getNumberOfBooks() {
-        return books.toArray().length;
-    }
-
-    public Integer getNumberOfAvailableBooks() {
-        return books.stream()
-                .filter(book -> book.getAvailable())
-                .collect(Collectors.toList())
-                .toArray().length;
+    public ArrayList<Movie> getAvailableMedia(String movie) {
+        return null;
     }
 }

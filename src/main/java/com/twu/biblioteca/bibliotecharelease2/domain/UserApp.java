@@ -3,9 +3,6 @@ package com.twu.biblioteca.bibliotecharelease2.domain;
 public class UserApp {
 
     private String firstname;
-
-
-
     private String lastname;
     private String email;
     private String phoneNumber;
