@@ -92,6 +92,20 @@ public class LibaryTesting {
         assertEquals(checkedOutBook.getPublicationYear(), "2016");
     }
 
+    @Test
+    public void returnBookIncorrectly () {
+        // Given
+        LibaryService service = new LibaryService(books);
+        service.checkoutBook("Work life balance");
+
+        // When
+        Book returnedBook = service.returnBook("Work life balance (wrong-name)");
+
+        // Then
+        ArrayList availableBooks = service.getAvailableBook();
+        assertEquals(1, availableBooks.size());
+        assertNull(returnedBook);
+    }
 //    @Test
 //    public void viewAListOfMovies() {
 //        ArrayList<Movie> movies = new ArrayList<Movie>();
