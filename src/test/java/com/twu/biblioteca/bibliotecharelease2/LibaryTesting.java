@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class LibaryTesting {
@@ -46,7 +45,7 @@ public class LibaryTesting {
     }
 
     @Test
-    public void checkoutABook () {
+    public void checkoutABookCorrectly () {
         // Given
         LibaryService service = new LibaryService(books);
 
@@ -60,6 +59,20 @@ public class LibaryTesting {
         assertEquals(checkedOutBook.getAuthor(), "nara");
         assertEquals(checkedOutBook.getPublicationYear(), "2016");
 
+    }
+
+    @Test
+    public void checkoutABookIncorrectly () {
+        // Given
+        LibaryService service = new LibaryService(books);
+
+        // When
+        Book checkedOutBook = service.checkoutBook("Work life balance (wrong-name)");
+
+        // Then
+        ArrayList availableBooks = service.getAvailableBook();
+        assertEquals(2, availableBooks.size());
+        assertNull(checkedOutBook);
     }
 
     @Test
