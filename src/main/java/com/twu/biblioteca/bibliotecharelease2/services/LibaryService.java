@@ -23,7 +23,7 @@ public class LibaryService {
         libaryMedias.addAll(media);
     }
 
-    public ArrayList<LibaryMedia> getAvailableBook(LibaryMedia.Media_type mediaType) {
+    public ArrayList<LibaryMedia> getAvailableMedia(LibaryMedia.Media_type mediaType) {
         switch (mediaType) {
             case Book:
                 return new ArrayList<>(libaryMedias.stream().filter(book -> book.getAvailable() && book.getMediaType() == LibaryMedia.Media_type.Book).collect(Collectors.toList()));
@@ -60,9 +60,5 @@ public class LibaryService {
         }
 
         return returnedMedia;
-    }
-
-    public ArrayList<Movie> getAvailableMedia(String movie) {
-        return null;
     }
 }

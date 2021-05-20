@@ -19,7 +19,7 @@ public class LibaryController {
 
     @GetMapping("/books")
     public ArrayList<LibaryMedia> getAllBooks () {
-        return libaryService.getAvailableBook(LibaryMedia.Media_type.Book);
+        return libaryService.getAvailableMedia(LibaryMedia.Media_type.Book);
     }
 
     @PostMapping("/books/checkout")

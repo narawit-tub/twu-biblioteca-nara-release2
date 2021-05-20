@@ -40,7 +40,7 @@ public class LibaryTesting {
         LibaryService service = new LibaryService(books);
 
         // When
-        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
 
         // Then
         assertEquals(2, availableBooks.size());
@@ -56,7 +56,7 @@ public class LibaryTesting {
         LibaryMedia checkedOutBook = service.checkout("Work life balance");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
         assertEquals(1, availableBooks.size());
         assertEquals(checkedOutBook.getProductName(), "Work life balance");
         assertEquals(checkedOutBook.getMaker(), "nara");
@@ -73,7 +73,7 @@ public class LibaryTesting {
         LibaryMedia checkedOutBook = service.checkout("Work life balance (wrong-name)");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
         assertEquals(2, availableBooks.size());
         assertNull(checkedOutBook);
     }
@@ -88,7 +88,7 @@ public class LibaryTesting {
         LibaryMedia returnedBook = service.returnBook("Work life balance");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
         assertEquals(2, availableBooks.size());
         assertEquals(returnedBook.getProductName(), "Work life balance");
         assertEquals(returnedBook.getMaker(), "nara");
@@ -105,7 +105,7 @@ public class LibaryTesting {
         LibaryMedia returnedBook = service.returnBook("Work life balance (wrong-name)");
 
         // Then
-        ArrayList availableBooks = service.getAvailableBook(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
         assertEquals(1, availableBooks.size());
         assertNull(returnedBook);
     }
