@@ -11,6 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -102,5 +105,24 @@ public class ControllerTesting {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("You define a wrong name of book, please recheck"));
+    }
+
+    @Test
+    public void loginToCheckoutBook() throws Exception {
+        Map<String, String> userloginPayload = new HashMap<>();
+        userloginPayload.put("email", "nara@email.com");
+        userloginPayload.put("password", "1234");
+        userloginPayload.put("libaryNumber", "123-4567");
+        this.mockMvc.perform(post("/api/user/login")
+                .content(new ObjectMapper().writeValueAsString(userloginPayload))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstname").value("Narawit"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastname").value("Tubtimtoe"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("nara@email.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber").value("0912345678"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("libarian"));
     }
 }
