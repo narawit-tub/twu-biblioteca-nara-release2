@@ -11,8 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,7 +50,7 @@ public class ControllerTesting {
     @Test
     public void checkoutCorrectBookShouldReturnTheBookName() throws Exception {
         Book requestedBook = new Book("Work life balance", "nara", "2016");
-        this.mockMvc.perform(post("/api/libary/checkout")
+        this.mockMvc.perform(post("/api/libary/books/checkout")
                     .content(new ObjectMapper().writeValueAsString(requestedBook))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -65,7 +64,7 @@ public class ControllerTesting {
     @Test
     public void checkoutIncorrectBookShouldReturnNotify() throws Exception {
         Book requestedBook = new Book("Work life balance (wrong name)", "nara", "2016");
-        this.mockMvc.perform(post("/api/libary/checkout")
+        this.mockMvc.perform(post("/api/libary/books/checkout")
                 .content(new ObjectMapper().writeValueAsString(requestedBook))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -77,11 +76,13 @@ public class ControllerTesting {
     @Test
     public void returnBookCorrectly() throws Exception {
         Book book = new Book("Work life balance", "nara", "2016");
-        this.mockMvc.perform(post("/api/libary/checkout")
+        this.mockMvc.perform(post("/api/libary/books/checkout")
                     .content(new ObjectMapper().writeValueAsString(book))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(post("/api/libary/returnbook")
+
+
+        this.mockMvc.perform(post("/api/libary/books/returnbook")
                     .content(new ObjectMapper().writeValueAsString(book))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -95,13 +96,13 @@ public class ControllerTesting {
     @Test
     public void returnBookIncorrectly() throws Exception {
         Book book = new Book("Work life balance", "nara", "2016");
-        this.mockMvc.perform(post("/api/libary/checkout")
+        this.mockMvc.perform(post("/api/libary/books/checkout")
                 .content(new ObjectMapper().writeValueAsString(book))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         book.setBookName("Wrong name");
 
-        this.mockMvc.perform(post("/api/libary/returnbook")
+        this.mockMvc.perform(post("/api/libary/books/returnbook")
                 .content(new ObjectMapper().writeValueAsString(book))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
