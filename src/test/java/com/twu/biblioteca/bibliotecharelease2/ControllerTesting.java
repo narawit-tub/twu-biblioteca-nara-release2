@@ -42,7 +42,10 @@ public class ControllerTesting {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value("nara"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].bookName").value("Work life balance"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].publicationYear").value("2016"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].publicationYear").value("2016"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].author").value("mormew"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bookName").value("Japan is hard"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].publicationYear").value("2015"));
     }
 
     @Test
