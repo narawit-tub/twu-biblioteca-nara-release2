@@ -22,6 +22,10 @@ public class LibaryService {
         books.addAll(bookList);
     }
 
+    public LibaryService(ArrayList<Book> books) {
+        this.books = books;
+    }
+
     public ArrayList<Book> getAvailableBook() {
         // filter only available book
 
