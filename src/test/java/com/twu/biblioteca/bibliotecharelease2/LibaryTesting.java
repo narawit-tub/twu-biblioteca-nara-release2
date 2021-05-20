@@ -82,14 +82,14 @@ public class LibaryTesting {
         Book checkedOutBook = service.checkoutBook("Work life balance");
 
         // When
-        service.returnBook("Work life balance");
+        Book returnedBook = service.returnBook("Work life balance");
 
         // Then
         ArrayList availableBooks = service.getAvailableBook();
         assertEquals(2, availableBooks.size());
-        assertEquals(checkedOutBook.getBookName(), "Work life balance");
-        assertEquals(checkedOutBook.getAuthor(), "nara");
-        assertEquals(checkedOutBook.getPublicationYear(), "2016");
+        assertEquals(returnedBook.getBookName(), "Work life balance");
+        assertEquals(returnedBook.getAuthor(), "nara");
+        assertEquals(returnedBook.getPublicationYear(), "2016");
     }
 
     @Test
