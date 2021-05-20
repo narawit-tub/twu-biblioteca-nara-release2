@@ -24,10 +24,10 @@ public class LibaryTesting {
 
     @BeforeEach
     public void setup () {
-        books = new ArrayList<>();
-        List<Book> bookList = Arrays.asList(
-                new Book("Work life balance", "nara", "2016"),
-                new Book("Japan is hard", "mormew", "2015"));
+        books = new ArrayList<Book>();
+        books.add(new Book("Work life balance", "nara", "2016"));
+        books.add(new Book("Japan is hard", "mormew", "2015"));
+
         books.addAll(bookList);
     }
 
