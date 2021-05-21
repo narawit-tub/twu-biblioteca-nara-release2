@@ -49,7 +49,8 @@ public class LibaryService {
         return (checkedOutMedia != null) ? checkedOutMedia : null;
     }
 
-    public LibaryMedia returnBook(String bookName) {
+    public LibaryMedia returnBook(String bookName, UserApp user) {
+        if(user == null) return null;
         LibaryMedia returnedMedia = null;
 
         for (LibaryMedia libaryMedia : libaryMedias) {

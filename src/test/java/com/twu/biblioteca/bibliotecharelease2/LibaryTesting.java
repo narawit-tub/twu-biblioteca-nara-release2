@@ -118,10 +118,10 @@ public class LibaryTesting {
         userloginPayload.put("password", "1234");
         userloginPayload.put("libaryNumber", "123-4567");
         UserApp user = userService.login(userloginPayload);
-        LibaryMedia checkedOutBook = service.checkout("Work life balance", user);
+        service.checkout("Work life balance", user);
 
         // When
-        LibaryMedia returnedBook = service.returnBook("Work life balance");
+        LibaryMedia returnedBook = service.returnBook("Work life balance", user);
 
         // Then
         ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
@@ -129,6 +129,27 @@ public class LibaryTesting {
         assertEquals(returnedBook.getProductName(), "Work life balance");
         assertEquals(returnedBook.getMaker(), "nara");
         assertEquals(returnedBook.getPublicationYear(), "2016");
+    }
+
+    @Test
+    public void returnBookWithoutLogin () {
+        // Given
+        LibaryService service = new LibaryService(books);
+        UserService userService = new UserService();
+        Map<String, String> userloginPayload = new HashMap<>();
+        userloginPayload.put("email", "nara@email.com");
+        userloginPayload.put("password", "1234");
+        userloginPayload.put("libaryNumber", "123-4567");
+        UserApp user = userService.login(userloginPayload);
+        service.checkout("Work life balance", user);
+
+        // When
+        LibaryMedia returnedBook = service.returnBook("Work life balance", null);
+
+        // Then
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
+        assertEquals(1, availableBooks.size());
+        assertNull(returnedBook);
     }
 
     @Test
@@ -144,7 +165,7 @@ public class LibaryTesting {
         libService.checkout("Work life balance", user);
 
         // When
-        LibaryMedia returnedBook = libService.returnBook("Work life balance (wrong-name)");
+        LibaryMedia returnedBook = libService.returnBook("Work life balance (wrong-name)", user);
 
         // Then
         ArrayList availableBooks = libService.getAvailableMedia(LibaryMedia.Media_type.Book);
