@@ -7,13 +7,15 @@ public class UserApp {
     private String email;
     private String phoneNumber;
     private String role;
+    private String password;
 
-    public UserApp(String firstname, String lastname, String email, String phoneNumber, String role) {
+    public UserApp(String firstname, String lastname, String email, String phoneNumber, String role, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.password = password;
     }
 
     public String getFirstname() {
@@ -34,6 +36,10 @@ public class UserApp {
 
     public String getRole() {
         return role;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override

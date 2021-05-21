@@ -2,6 +2,7 @@ package com.twu.biblioteca.bibliotecharelease2.services;
 
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
 import com.twu.biblioteca.bibliotecharelease2.domain.LibaryMedia;
+import com.twu.biblioteca.bibliotecharelease2.domain.Movie;
 import com.twu.biblioteca.bibliotecharelease2.domain.UserApp;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,10 @@ public class LibaryService {
 
         for (LibaryMedia libaryMedia : libaryMedias) {
             if (libaryMedia.getProductName().equals(bookName)) {
+
+                if (libaryMedia.getMediaType() == LibaryMedia.Media_type.Book && user.getRole() != "libarian") return null;
+                if (libaryMedia.getMediaType() == LibaryMedia.Media_type.Movie && user.getRole() != "guest") return null;
+
                 checkedOutMedia = libaryMedia;
                 libaryMedia.setAvailable(false);
                 libaryMedia.setCheckedOutUser(user.getFirstname() + " " + user.getLastname());

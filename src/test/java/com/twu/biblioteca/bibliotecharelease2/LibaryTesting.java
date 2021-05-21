@@ -25,7 +25,8 @@ public class LibaryTesting {
     * */
     private ArrayList<Book> books;
     private ArrayList<Movie> movies;
-    private Map<String, String> userloginPayload;
+    private Map<String, String> libarianloginPayload;
+    private Map<String , String> guestloginPayload;
 
     @BeforeEach
     public void setup () {
@@ -38,10 +39,15 @@ public class LibaryTesting {
         movies.add(new Movie( "Nora", "Water flow","2015", 7.0));
         movies.add(new Movie( "Kenjiro", "Land of paradise", "2012", 4.0));
 
-        userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
+        libarianloginPayload = new HashMap<>();
+        libarianloginPayload.put("email", "nara@email.com");
+        libarianloginPayload.put("password", "1234");
+        libarianloginPayload.put("libaryNumber", "123-4567");
+
+        guestloginPayload = new HashMap<>();
+        guestloginPayload.put("email", "game@email.com");
+        guestloginPayload.put("password", "1234");
+        guestloginPayload.put("libaryNumber", "123-4567");
     }
 
     @Test
@@ -62,7 +68,7 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
 
         // When
         LibaryMedia checkedOutBook = libService.checkout("Work life balance", user);
@@ -83,7 +89,7 @@ public class LibaryTesting {
         UserService userService = new UserService();
 
         // When
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
         LibaryMedia checkedOutBook = libService.checkout("Work life balance (wrong-name)", user);
 
         // Then
@@ -111,7 +117,7 @@ public class LibaryTesting {
         // Given
         LibaryService service = new LibaryService(books);
         UserService userService = new UserService();
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
         service.checkout("Work life balance", user);
 
         // When
@@ -130,7 +136,7 @@ public class LibaryTesting {
         // Given
         LibaryService service = new LibaryService(books);
         UserService userService = new UserService();
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
         service.checkout("Work life balance", user);
 
         // When
@@ -147,7 +153,7 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
         libService.checkout("Work life balance", user);
 
         // When
@@ -177,7 +183,7 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
         LibaryMedia checkedOutBook = libService.checkout("Work life balance", user);
 
         // When
@@ -215,7 +221,7 @@ public class LibaryTesting {
         UserService userService = new UserService();
 
         // WHen
-        UserApp user = userService.login(userloginPayload);
+        UserApp user = userService.login(libarianloginPayload);
 
         // Then
         assertEquals("Narawit Tubtimtoe, email: nara@email.com, phone: 0912345678", user.toString());
