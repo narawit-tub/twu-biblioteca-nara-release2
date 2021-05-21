@@ -2,7 +2,7 @@ package com.twu.biblioteca.bibliotecharelease2.services;
 
 import com.twu.biblioteca.bibliotecharelease2.domain.Book;
 import com.twu.biblioteca.bibliotecharelease2.domain.LibaryMedia;
-import com.twu.biblioteca.bibliotecharelease2.domain.Movie;
+import com.twu.biblioteca.bibliotecharelease2.domain.UserApp;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,7 +34,8 @@ public class LibaryService {
         }
     }
 
-    public LibaryMedia checkout(String bookName) {
+    public LibaryMedia checkout(String bookName, UserApp user) {
+        if (user == null) return null;
         LibaryMedia checkedOutMedia = null;
 
         for (LibaryMedia libaryMedia : libaryMedias) {

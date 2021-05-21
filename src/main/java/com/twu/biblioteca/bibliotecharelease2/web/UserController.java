@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login (@RequestBody Map<String, String> userloginPayload) {
-        UserApp user = UserService.login(userloginPayload);
+        UserApp user = userService.login(userloginPayload);
         if (user == null) return ErrorService.getErrorMap("Not found user");
         return new ResponseEntity<UserApp>(user, HttpStatus.OK);
     }
