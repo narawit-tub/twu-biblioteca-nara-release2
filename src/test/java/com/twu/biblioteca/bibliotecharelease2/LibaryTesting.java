@@ -25,6 +25,7 @@ public class LibaryTesting {
     * */
     private ArrayList<Book> books;
     private ArrayList<Movie> movies;
+    private Map<String, String> userloginPayload;
 
     @BeforeEach
     public void setup () {
@@ -36,6 +37,11 @@ public class LibaryTesting {
         movies.add(new Movie( "John maven", "Antman", "2015", 5.5));
         movies.add(new Movie( "Nora", "Water flow","2015", 7.0));
         movies.add(new Movie( "Kenjiro", "Land of paradise", "2012", 4.0));
+
+        userloginPayload = new HashMap<>();
+        userloginPayload.put("email", "nara@email.com");
+        userloginPayload.put("password", "1234");
+        userloginPayload.put("libaryNumber", "123-4567");
     }
 
     @Test
@@ -56,10 +62,6 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        Map<String, String> userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
         UserApp user = userService.login(userloginPayload);
 
         // When
@@ -79,10 +81,6 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        Map<String, String> userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
 
         // When
         UserApp user = userService.login(userloginPayload);
@@ -113,10 +111,6 @@ public class LibaryTesting {
         // Given
         LibaryService service = new LibaryService(books);
         UserService userService = new UserService();
-        Map<String, String> userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
         UserApp user = userService.login(userloginPayload);
         service.checkout("Work life balance", user);
 
@@ -136,10 +130,6 @@ public class LibaryTesting {
         // Given
         LibaryService service = new LibaryService(books);
         UserService userService = new UserService();
-        Map<String, String> userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
         UserApp user = userService.login(userloginPayload);
         service.checkout("Work life balance", user);
 
@@ -157,10 +147,6 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        Map<String, String> userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
         UserApp user = userService.login(userloginPayload);
         libService.checkout("Work life balance", user);
 
@@ -191,10 +177,6 @@ public class LibaryTesting {
         // Given
         LibaryService libService = new LibaryService(books);
         UserService userService = new UserService();
-        Map<String, String> userloginPayload = new HashMap<>();
-        userloginPayload.put("email", "nara@email.com");
-        userloginPayload.put("password", "1234");
-        userloginPayload.put("libaryNumber", "123-4567");
         UserApp user = userService.login(userloginPayload);
         LibaryMedia checkedOutBook = libService.checkout("Work life balance", user);
 
