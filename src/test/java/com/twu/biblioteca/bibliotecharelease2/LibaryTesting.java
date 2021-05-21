@@ -183,7 +183,6 @@ public class LibaryTesting {
         // When
         ArrayList checkedOutBooks = libService.getCheckedOutMedia(LibaryMedia.Media_type.Book);
         ArrayList availableBooks = libService.getAvailableMedia(LibaryMedia.Media_type.Book);
-        ArrayList availableMovies = libService.getAvailableMedia(LibaryMedia.Media_type.Movie);
 
         // Then
         assertEquals(1, checkedOutBooks.size());
@@ -198,7 +197,7 @@ public class LibaryTesting {
     public void viewCheckedOutBookWithoutLogin() {
         // Given
         LibaryService libService = new LibaryService(books);
-        LibaryMedia checkedOutBook = libService.checkout("Work life balance", null);
+        libService.checkout("Work life balance", null);
 
         // When
         ArrayList checkedOutBooks = libService.getCheckedOutMedia(LibaryMedia.Media_type.Book);
@@ -208,5 +207,17 @@ public class LibaryTesting {
         // Then
         assertEquals(0, checkedOutBooks.size());
         assertEquals(2, availableBooks.size());
+    }
+
+    @Test
+    public void loginToViewUserInfo () {
+        // Given
+        UserService userService = new UserService();
+
+        // WHen
+        UserApp user = userService.login(userloginPayload);
+
+        // Then
+        assertEquals("Narawit Tubtimtoe, email: nara@email.com, phone: 0912345678", user.toString());
     }
 }

@@ -35,4 +35,9 @@ public class UserApp {
     public String getRole() {
         return role;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s, email: %s, phone: %s", getFirstname(), getLastname(), getEmail(), getPhoneNumber());
+    }
 }
