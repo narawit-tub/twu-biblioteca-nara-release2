@@ -47,7 +47,6 @@ public class LibaryTesting {
         guestloginPayload = new HashMap<>();
         guestloginPayload.put("email", "game@email.com");
         guestloginPayload.put("password", "1234");
-        guestloginPayload.put("libaryNumber", "123-4567");
     }
 
     @Test
@@ -113,6 +112,23 @@ public class LibaryTesting {
     }
 
     @Test
+    public void checkoutABookButLoginWithGuest () {
+        // Given
+        LibaryService libService = new LibaryService(books);
+        UserService userService = new UserService();
+
+
+        // When
+        UserApp user = userService.login(guestloginPayload);
+        LibaryMedia checkedOutBook = libService.checkout("Work life balance", user);
+
+        // Then
+        ArrayList availableBooks = libService.getAvailableMedia(LibaryMedia.Media_type.Book);
+        assertEquals(2, availableBooks.size());
+        assertNull(checkedOutBook);
+    }
+
+    @Test
     public void returnBookCorrectly () {
         // Given
         LibaryService service = new LibaryService(books);
@@ -141,6 +157,24 @@ public class LibaryTesting {
 
         // When
         LibaryMedia returnedBook = service.returnBook("Work life balance", null);
+
+        // Then
+        ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);
+        assertEquals(1, availableBooks.size());
+        assertNull(returnedBook);
+    }
+
+    @Test
+    public void returnBookButLoginWithGuest () {
+        // Given
+        LibaryService service = new LibaryService(books);
+        UserService userService = new UserService();
+        UserApp user = userService.login(libarianloginPayload);
+        service.checkout("Work life balance", user);
+
+        // When
+        user = userService.login(guestloginPayload);
+        LibaryMedia returnedBook = service.returnBook("Work life balance", user);
 
         // Then
         ArrayList availableBooks = service.getAvailableMedia(LibaryMedia.Media_type.Book);

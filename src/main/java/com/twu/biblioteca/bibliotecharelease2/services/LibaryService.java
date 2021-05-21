@@ -73,6 +73,10 @@ public class LibaryService {
 
         for (LibaryMedia libaryMedia : libaryMedias) {
             if (libaryMedia.getProductName().equals(bookName)) {
+
+                if (libaryMedia.getMediaType() == LibaryMedia.Media_type.Book && user.getRole() != "libarian") return null;
+                if (libaryMedia.getMediaType() == LibaryMedia.Media_type.Movie && user.getRole() != "guest") return null;
+
                 returnedMedia = libaryMedia;
                 libaryMedia.setAvailable(true);
                 break;
