@@ -182,12 +182,31 @@ public class LibaryTesting {
 
         // When
         ArrayList checkedOutBooks = libService.getCheckedOutMedia(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = libService.getAvailableMedia(LibaryMedia.Media_type.Book);
+        ArrayList availableMovies = libService.getAvailableMedia(LibaryMedia.Media_type.Movie);
 
         // Then
         assertEquals(1, checkedOutBooks.size());
+        assertEquals(1, availableBooks.size());
         assertEquals(checkedOutBook.getProductName(), "Work life balance");
         assertEquals(checkedOutBook.getMaker(), "nara");
         assertEquals(checkedOutBook.getPublicationYear(), "2016");
         assertEquals(checkedOutBook.getCheckedOutUser(), "Narawit Tubtimtoe");
+    }
+
+    @Test
+    public void viewCheckedOutBookWithoutLogin() {
+        // Given
+        LibaryService libService = new LibaryService(books);
+        LibaryMedia checkedOutBook = libService.checkout("Work life balance", null);
+
+        // When
+        ArrayList checkedOutBooks = libService.getCheckedOutMedia(LibaryMedia.Media_type.Book);
+        ArrayList availableBooks = libService.getAvailableMedia(LibaryMedia.Media_type.Book);
+
+        // Then
+        // Then
+        assertEquals(0, checkedOutBooks.size());
+        assertEquals(2, availableBooks.size());
     }
 }
