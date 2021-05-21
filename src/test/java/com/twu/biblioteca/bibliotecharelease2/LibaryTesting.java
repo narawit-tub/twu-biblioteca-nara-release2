@@ -185,4 +185,27 @@ public class LibaryTesting {
         assertEquals(3, availableMovies.size());
         assertArrayEquals(movies.toArray(), availableMovies.toArray());
     }
+
+    @Test
+    public void viewCheckedOutBook() {
+        // Given
+        LibaryService libService = new LibaryService(books);
+        UserService userService = new UserService();
+        Map<String, String> userloginPayload = new HashMap<>();
+        userloginPayload.put("email", "nara@email.com");
+        userloginPayload.put("password", "1234");
+        userloginPayload.put("libaryNumber", "123-4567");
+        UserApp user = userService.login(userloginPayload);
+        LibaryMedia checkedOutBook = libService.checkout("Work life balance", user);
+
+        // When
+        ArrayList checkedOutBooks = libService.getCheckedOutMedia(LibaryMedia.Media_type.Book);
+
+        // Then
+        assertEquals(1, checkedOutBooks.size());
+        assertEquals(checkedOutBook.getProductName(), "Work life balance");
+        assertEquals(checkedOutBook.getMaker(), "nara");
+        assertEquals(checkedOutBook.getPublicationYear(), "2016");
+        assertEquals(checkedOutBook.getCheckedOutUser(), "Narawit Tubtimtoe");
+    }
 }

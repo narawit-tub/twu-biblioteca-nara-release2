@@ -6,6 +6,7 @@ public class LibaryMedia {
     private String publicationYear;
     private Boolean isAvailable;
     private LibaryMedia.Media_type mediaType;
+    private String checkedOutUser;
 
     public enum Media_type {
         Book,
@@ -39,6 +40,14 @@ public class LibaryMedia {
 
     public Media_type getMediaType() {
         return mediaType;
+    }
+
+    public String getCheckedOutUser() {
+        return checkedOutUser;
+    }
+
+    public void setCheckedOutUser(String checkedOutUser) {
+        this.checkedOutUser = checkedOutUser;
     }
 
     public void setMediaType(Media_type mediaType) {

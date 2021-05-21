@@ -34,6 +34,18 @@ public class LibaryService {
         }
     }
 
+
+    public ArrayList<LibaryMedia> getCheckedOutMedia(LibaryMedia.Media_type mediaType) {
+        switch (mediaType) {
+            case Book:
+                return new ArrayList<>(libaryMedias.stream().filter(book -> !book.getAvailable() && book.getMediaType() == LibaryMedia.Media_type.Book).collect(Collectors.toList()));
+            case Movie:
+                return new ArrayList<>(libaryMedias.stream().filter(movie -> !movie.getAvailable() && movie.getMediaType() == LibaryMedia.Media_type.Movie).collect(Collectors.toList()));
+            default:
+                return null;
+        }
+    }
+
     public LibaryMedia checkout(String bookName, UserApp user) {
         if (user == null) return null;
         LibaryMedia checkedOutMedia = null;
@@ -42,6 +54,7 @@ public class LibaryService {
             if (libaryMedia.getProductName().equals(bookName)) {
                 checkedOutMedia = libaryMedia;
                 libaryMedia.setAvailable(false);
+                libaryMedia.setCheckedOutUser(user.getFirstname() + " " + user.getLastname());
                 break;
             }
         }
